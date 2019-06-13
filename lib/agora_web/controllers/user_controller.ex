@@ -20,11 +20,16 @@ defmodule AgoraWeb.UserController do
     end
   end
 
+  def me(conn, _params) do
+    render(conn, "show.json", user: conn.assigns[:current_user])
+  end
+
   def show(conn, %{"id" => id}) do
     user = Accounts.get_user!(id)
     render(conn, "show.json", user: user)
   end
 
+  @spec update(Plug.Conn.t(), map) :: Plug.Conn.t()
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Accounts.get_user!(id)
 

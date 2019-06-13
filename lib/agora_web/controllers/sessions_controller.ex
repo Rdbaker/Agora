@@ -15,9 +15,7 @@ defmodule AgoraWeb.SessionController do
             render(conn, "show.json", %{ token: token, claims: claims })
         end
       {:error, :unauthorized} ->
-        conn
-        |> put_flash(:error, "Bad email/password combination")
-        |> redirect(to: Routes.session_path(conn, :new))
+        render(conn, "error.json", %{ error: "unauthorized" })
     end
   end
 

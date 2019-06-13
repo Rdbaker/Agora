@@ -9,6 +9,9 @@ defmodule AgoraWeb.SessionView do
     %{errors: Ecto.Changeset.traverse_errors(changeset, &translate_error/1)}
   end
 
+  def render("error.json", %{:error => error}) do
+    %{error: error}
+  end
   def render("show.json", params) do
     %{data: render("user.json", params)}
   end
