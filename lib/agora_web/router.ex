@@ -17,5 +17,7 @@ defmodule AgoraWeb.Router do
     get "/users", UserController, :index
     post "/users", UserController, :create
     get "/users/:id", UserController, :show
+    post "/sessions", SessionController, :create
+    get "/sessions", SessionController, :create
   end
 end

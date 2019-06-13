@@ -11,9 +11,9 @@ defmodule AgoraWeb.UserController do
 
   def create(conn, %{"user" => user_params}) do
     case Accounts.create_user(user_params) do
-      {:ok, user} ->
+      {:ok, _user} ->
         conn
-        |> redirect(to: "/api/users/#{user.id}")
+        |> redirect(to: Routes.session_path(conn, :create, %{ user: user_params }))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "error.json", changeset: changeset)
