@@ -1,4 +1,4 @@
-defmodule Agora.Auth.TokenPlug do
+defmodule Agora.Auth.EndUserTokenPlug do
   import Plug.Conn
 
 
@@ -21,9 +21,16 @@ defmodule Agora.Auth.TokenPlug do
 
   defp handle_request(token, conn, _config) do
     case Agora.Guardian.resource_from_token(token) do
-      {:ok, user, _claims} ->
-        conn
-          |> assign(:current_user, user)
+      {:ok, user, %{ "typ" => token_type }} ->
+        case token_type do
+          "widget" ->
+            conn
+              |> assign(:current_user, user)
+          _ ->
+            conn
+              |> send_resp(403, "Not Authorized")
+              |> halt
+        end
       {:error, _} ->
         conn
           |> send_resp(401, "Authentication Required")

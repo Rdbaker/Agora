@@ -7,6 +7,18 @@ defmodule AgoraWeb.SessionController do
     render(conn, "new.html")
   end
 
+  def create(conn, %{"end_user" => %{"username" => username, "password" => password}}) do
+    case Accounts.authenticate_by_username_password(username, password) do
+      {:ok, end_user} ->
+        case Agora.Guardian.encode_and_sign(end_user, %{}, token_type: :widget) do
+          {:ok, token, claims} ->
+            render(conn, "show.json", %{ token: token, claims: claims })
+        end
+      {:error, :unauthorized} ->
+        render(conn, "error.json", %{ error: "unauthorized" })
+    end
+  end
+
   def create(conn, %{"user" => %{"email" => email, "password" => password}}) do
     case Accounts.authenticate_by_email_password(email, password) do
       {:ok, user} ->

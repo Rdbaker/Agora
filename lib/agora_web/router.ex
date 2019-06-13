@@ -5,8 +5,12 @@ defmodule AgoraWeb.Router do
     plug :accepts, ["json"]
   end
 
-  pipeline :auth do
-    plug Agora.Auth.TokenPlug
+  pipeline :user_auth do
+    plug Agora.Auth.UserTokenPlug
+  end
+
+  pipeline :end_user_auth do
+    plug Agora.Auth.EndUserTokenPlug
   end
 
   scope "/", AgoraWeb do
@@ -16,15 +20,21 @@ defmodule AgoraWeb.Router do
   end
 
   scope "/api", AgoraWeb do
-    pipe_through [:api, :auth]
+    pipe_through [:api, :user_auth]
 
     get "/users/me", UserController, :me
   end
 
   scope "/api", AgoraWeb do
+    pipe_through [:api, :end_user_auth]
+
+    get "/end_users/me", EndUserController, :me
+  end
+
+  scope "/api", AgoraWeb do
     pipe_through :api
 
-    get "/users", UserController, :index
+    post "/end_users", EndUserController, :create
     post "/users", UserController, :create
     get "/users/:id", UserController, :show
     post "/sessions", SessionController, :create
