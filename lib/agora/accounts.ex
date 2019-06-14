@@ -8,6 +8,7 @@ defmodule Agora.Accounts do
 
   alias Agora.Accounts.User
   alias Agora.Accounts.EndUser
+  alias Agora.Accounts.Org
 
   def authenticate_by_email_password(email, password) do
     user = Repo.get_by(User, email: email)
@@ -69,9 +70,13 @@ defmodule Agora.Accounts do
 
   """
   def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert()
+    case create_org() do
+      {:ok, org} ->
+        %User{}
+        |> User.changeset(attrs)
+        |> Ecto.Changeset.put_assoc(:org, org)
+        |> Repo.insert()
+    end
   end
 
   @doc """
@@ -90,22 +95,6 @@ defmodule Agora.Accounts do
     user
     |> User.changeset(attrs)
     |> Repo.update()
-  end
-
-  @doc """
-  Deletes a User.
-
-  ## Examples
-
-      iex> delete_user(user)
-      {:ok, %User{}}
-
-      iex> delete_user(user)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_user(%User{} = user) do
-    Repo.delete(user)
   end
 
   @doc """
@@ -213,5 +202,66 @@ defmodule Agora.Accounts do
   """
   def change_end_user(%EndUser{} = end_user) do
     EndUser.changeset(end_user, %{})
+  end
+
+
+  @doc """
+  Returns the list of orgs.
+
+  ## Examples
+
+      iex> list_orgs()
+      [%Org{}, ...]
+
+  """
+  def list_orgs do
+    Repo.all(Org)
+  end
+
+  @doc """
+  Gets a single org.
+
+  Raises `Ecto.NoResultsError` if the Org does not exist.
+
+  ## Examples
+
+      iex> get_org!(123)
+      %Org{}
+
+      iex> get_org!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_org!(id), do: Repo.get!(Org, id)
+
+  @doc """
+  Creates a org.
+
+  ## Examples
+
+      iex> create_org(%{field: value})
+      {:ok, %Org{}}
+
+      iex> create_org(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_org(attrs \\ %{}) do
+    %Org{}
+    |> Org.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking org changes.
+
+  ## Examples
+
+      iex> change_org(org)
+      %Ecto.Changeset{source: %Org{}}
+
+  """
+  def change_org(%Org{} = org) do
+    Org.changeset(org, %{})
   end
 end
