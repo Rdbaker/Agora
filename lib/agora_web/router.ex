@@ -31,7 +31,6 @@ defmodule AgoraWeb.Router do
   scope "/api", AgoraWeb do
     pipe_through :api
 
-    post "/end_users", EndUserController, :create
     post "/users", UserController, :create
     post "/sessions", SessionController, :create
     get "/sessions", SessionController, :create
@@ -39,9 +38,13 @@ defmodule AgoraWeb.Router do
 
   # PUBLIC WIDGET ENDPOINTS
   scope "/widget", AgoraWeb do
-    pipe_through [:api]
+    pipe_through :api
 
+    get "/end_users/:id", EndUserController, :show
     get "/conversations/:id/messages", MessageController, :paginate
+    post "/end_users", EndUserController, :create
+    post "/sessions", SessionController, :create
+    get "/sessions", SessionController, :create
   end
 
   # AUTH REQUIRED WIDGET ENDPOINTS

@@ -14,6 +14,6 @@ defmodule AgoraWeb.EndUserView do
   end
 
   def render("end_user.json", %{end_user: end_user}) do
-    %{username: end_user.username, id: end_user.id}
+    %{username: end_user.username, id: end_user.id, created_at: end_user.inserted_at}
   end
 end
