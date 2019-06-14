@@ -9,6 +9,7 @@ defmodule Agora.Accounts do
   alias Agora.Accounts.User
   alias Agora.Accounts.EndUser
   alias Agora.Accounts.Org
+  alias Agora.Message.Conversation
 
   def authenticate_by_email_password(email, password) do
     user = Repo.get_by(User, email: email)
@@ -237,6 +238,13 @@ defmodule Agora.Accounts do
   """
   def get_org!(id), do: Repo.get!(Org, id)
 
+  def create_conversation(org) do
+    %Conversation{}
+    |> Conversation.changeset(%{})
+    |> Ecto.Changeset.put_assoc(:org, org)
+    |> Repo.insert()
+  end
+
   @doc """
   Creates a org.
 
@@ -250,12 +258,17 @@ defmodule Agora.Accounts do
 
   """
   def create_org(attrs \\ %{}) do
-    %Org{
+    {:ok, org} = %Org{
       client_id: generate_random_string(12),
       client_secret: generate_random_string(46),
     }
     |> Org.changeset(attrs)
     |> Repo.insert()
+
+    case create_conversation(org) do
+      {:ok, _conversation} ->
+        {:ok, org}
+    end
   end
 
   @doc """
