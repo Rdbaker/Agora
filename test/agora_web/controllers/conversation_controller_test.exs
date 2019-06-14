@@ -1,8 +1,8 @@
 defmodule AgoraWeb.ConversationControllerTest do
   use AgoraWeb.ConnCase
 
-  alias Agora.Message
-  alias Agora.Message.Conversation
+  alias Agora.Messages
+  alias Agora.Messages.Conversation
 
   @create_attrs %{
 
@@ -13,7 +13,7 @@ defmodule AgoraWeb.ConversationControllerTest do
   @invalid_attrs %{}
 
   def fixture(:conversation) do
-    {:ok, conversation} = Message.create_conversation(@create_attrs)
+    {:ok, conversation} = Messages.create_conversation(@create_attrs)
     conversation
   end
 

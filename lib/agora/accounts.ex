@@ -9,7 +9,7 @@ defmodule Agora.Accounts do
   alias Agora.Accounts.User
   alias Agora.Accounts.EndUser
   alias Agora.Accounts.Org
-  alias Agora.Message.Conversation
+  alias Agora.Messages.Conversation
 
   def authenticate_by_email_password(email, password) do
     user = Repo.get_by(User, email: email)

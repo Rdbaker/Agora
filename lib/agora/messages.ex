@@ -1,12 +1,77 @@
-defmodule Agora.Message do
+defmodule Agora.Messages do
   @moduledoc """
-  The Message context.
+  The Messages context.
   """
 
   import Ecto.Query, warn: false
   alias Agora.Repo
 
-  alias Agora.Message.Conversation
+  alias Agora.Messages.Message
+  alias Agora.Messages.Conversation
+
+  @doc """
+  Returns the list of messages.
+
+  ## Examples
+
+      iex> list_messages()
+      [%Message{}, ...]
+
+  """
+  def paginate_messages(conversation_id) do
+    Repo.all(from(m in Message, where: m.conversation_id == ^conversation_id))
+  end
+
+  @doc """
+  Gets a single message.
+
+  Raises `Ecto.NoResultsError` if the Message does not exist.
+
+  ## Examples
+
+      iex> get_message!(123)
+      %Message{}
+
+      iex> get_message!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_message!(id), do: Repo.get!(Message, id)
+
+  @doc """
+  Creates a message.
+
+  ## Examples
+
+      iex> create_message(%{field: value}, 1)
+      {:ok, %Message{}}
+
+      iex> create_message(%{field: bad_value}, 1)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_message(attrs, {conversation_id, _}) do
+    conversation = get_conversation!(conversation_id)
+      |> Repo.preload(:org)
+    %Message{}
+    |> Message.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:conversation, conversation)
+    |> Ecto.Changeset.put_assoc(:org, conversation.org)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking message changes.
+
+  ## Examples
+
+      iex> change_message(message)
+      %Ecto.Changeset{source: %Message{}}
+
+  """
+  def change_message(%Message{} = message) do
+    Message.changeset(message, %{})
+  end
 
   @doc """
   Returns the list of conversations.
@@ -74,22 +139,6 @@ defmodule Agora.Message do
   end
 
   @doc """
-  Deletes a Conversation.
-
-  ## Examples
-
-      iex> delete_conversation(conversation)
-      {:ok, %Conversation{}}
-
-      iex> delete_conversation(conversation)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_conversation(%Conversation{} = conversation) do
-    Repo.delete(conversation)
-  end
-
-  @doc """
   Returns an `%Ecto.Changeset{}` for tracking conversation changes.
 
   ## Examples
@@ -101,4 +150,5 @@ defmodule Agora.Message do
   def change_conversation(%Conversation{} = conversation) do
     Conversation.changeset(conversation, %{})
   end
+
 end

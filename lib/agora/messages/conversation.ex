@@ -1,4 +1,4 @@
-defmodule Agora.Message.Conversation do
+defmodule Agora.Messages.Conversation do
   use Ecto.Schema
   import Ecto.Changeset
 
