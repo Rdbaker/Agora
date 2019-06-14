@@ -3,6 +3,8 @@ defmodule Agora.Accounts.Org do
   import Ecto.Changeset
 
   schema "orgs" do
+    field :client_id, :string
+    field :client_secret, :string
 
     timestamps()
   end

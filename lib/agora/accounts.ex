@@ -26,6 +26,9 @@ defmodule Agora.Accounts do
     end
   end
 
+  def generate_random_string(len) do
+    :crypto.strong_rand_bytes(len) |> Base.url_encode64 |> binary_part(0, len)
+  end
 
 
   @doc """
@@ -247,7 +250,10 @@ defmodule Agora.Accounts do
 
   """
   def create_org(attrs \\ %{}) do
-    %Org{}
+    %Org{
+      client_id: generate_random_string(12),
+      client_secret: generate_random_string(46),
+    }
     |> Org.changeset(attrs)
     |> Repo.insert()
   end
