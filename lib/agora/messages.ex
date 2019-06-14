@@ -18,8 +18,12 @@ defmodule Agora.Messages do
       [%Message{}, ...]
 
   """
-  def paginate_messages(conversation_id) do
-    Repo.all(from(m in Message, where: m.conversation_id == ^conversation_id))
+  def paginate_messages(conversation_id, limit, query_before \\ DateTime.utc_now()) do
+    Repo.all(from(m in Message,
+      where: m.conversation_id == ^conversation_id and m.inserted_at < ^query_before,
+      limit: ^limit,
+      order_by: [desc: m.inserted_at]
+    ))
   end
 
   @doc """

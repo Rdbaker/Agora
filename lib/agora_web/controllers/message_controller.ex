@@ -6,8 +6,13 @@ defmodule AgoraWeb.MessageController do
 
   action_fallback AgoraWeb.FallbackController
 
+  def paginate(conn, %{"id" => conversation_id, "before" => before}) do
+    messages = Messages.paginate_messages(conversation_id, 35, before)
+    render(conn, "list.json", messages: messages)
+  end
+
   def paginate(conn, %{"id" => conversation_id}) do
-    messages = Messages.paginate_messages(conversation_id)
+    messages = Messages.paginate_messages(conversation_id, 35)
     render(conn, "list.json", messages: messages)
   end
 

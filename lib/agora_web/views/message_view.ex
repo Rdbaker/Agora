@@ -23,6 +23,7 @@ defmodule AgoraWeb.MessageView do
       author_id: message.author_id,
       attributes: message.attributes,
       user_context: message.user_context,
+      created_at: message.inserted_at,
       event: message.event}
   end
 end
