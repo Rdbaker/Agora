@@ -40,6 +40,7 @@ defmodule AgoraWeb.Router do
   scope "/widget", AgoraWeb do
     pipe_through :api
 
+    get "/orgs/:client_id", OrgController, :show_from_client_id
     get "/end_users/:id", EndUserController, :show
     get "/conversations/:id/messages", MessageController, :paginate
     post "/end_users", EndUserController, :create

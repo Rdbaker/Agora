@@ -90,6 +90,10 @@ defmodule Agora.Messages do
     Repo.all(Conversation)
   end
 
+  def list_conversations(org_id) do
+    Repo.all(from(c in Conversation, where: c.org_id == ^org_id))
+  end
+
   @doc """
   Gets a single conversation.
 

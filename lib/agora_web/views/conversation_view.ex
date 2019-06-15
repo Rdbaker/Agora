@@ -11,6 +11,9 @@ defmodule AgoraWeb.ConversationView do
   end
 
   def render("conversation.json", %{conversation: conversation}) do
-    %{id: conversation.id}
+    %{
+      id: conversation.id,
+      created_at: conversation.inserted_at
+    }
   end
 end
