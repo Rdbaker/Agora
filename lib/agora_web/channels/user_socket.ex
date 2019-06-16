@@ -2,7 +2,7 @@ defmodule AgoraWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", AgoraWeb.RoomChannel
+  channel "conversation:*", Agora.ConversationChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
