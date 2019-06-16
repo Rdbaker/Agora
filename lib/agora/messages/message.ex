@@ -11,7 +11,7 @@ defmodule Agora.Messages.Message do
     field :message_type, :string
     field :raw_body, :string
     field :user_context, :map
-    belongs_to :conversation, Agora.Messages.Conversation
+    belongs_to :conversation, Agora.Messages.Conversation, type: :binary_id
     belongs_to :org, Agora.Accounts.Org
 
     timestamps()

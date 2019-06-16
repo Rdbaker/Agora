@@ -7,7 +7,7 @@ defmodule AgoraWeb.MessageController do
   action_fallback AgoraWeb.FallbackController
 
   def paginate(conn, %{"id" => conversation_id, "before" => before}) do
-    messages = Messages.paginate_messages(conversation_id, 35, before)
+    messages = Messages.paginate_messages(Ecto.UUID.cast!(conversation_id), 35, before)
     render(conn, "list.json", messages: messages)
   end
 
@@ -28,7 +28,7 @@ defmodule AgoraWeb.MessageController do
       raw_body: Map.get(message_params, "body", ""),
       message_type: Map.get(message_params, "message_type", "CHAT")
     }
-    with {:ok, %Message{} = message} <- Messages.create_message(coerced_message_params, Integer.parse(id)) do
+    with {:ok, %Message{} = message} <- Messages.create_message(coerced_message_params, id) do
       conn
       |> put_status(:created)
       |> render("show.json", message: message)

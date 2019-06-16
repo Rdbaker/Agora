@@ -239,7 +239,12 @@ defmodule Agora.Accounts do
   def get_org!(id), do: Repo.get!(Org, id)
 
   def get_org_by_client_id(client_id) do
-    Repo.get_by(Org, client_id: client_id)
+    case Repo.get_by(Org, client_id: client_id) do
+      nil ->
+        {:error, :not_found}
+      org ->
+        {:ok, org}
+    end
   end
 
   def create_conversation(org) do

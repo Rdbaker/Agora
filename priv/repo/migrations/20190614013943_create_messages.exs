@@ -12,7 +12,7 @@ defmodule Agora.Repo.Migrations.CreateMessages do
       add :user_context, :map
       add :event, :map
       add :org_id, references(:orgs, on_delete: :nothing)
-      add :conversation_id, references(:conversations, on_delete: :nothing)
+      add :conversation_id, references(:conversations, on_delete: :nothing, type: :uuid)
 
       timestamps()
     end

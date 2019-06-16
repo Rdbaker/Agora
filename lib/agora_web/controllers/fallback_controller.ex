@@ -19,4 +19,11 @@ defmodule AgoraWeb.FallbackController do
     |> put_view(AgoraWeb.ErrorView)
     |> render(:"404")
   end
+
+  def call(conn, {:error, _}) do
+    conn
+    |> put_status(:internal_error)
+    |> put_view(AgoraWeb.ErrorView)
+    |> render(:"500")
+  end
 end

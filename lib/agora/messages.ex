@@ -54,7 +54,7 @@ defmodule Agora.Messages do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_message(attrs, {conversation_id, _}) do
+  def create_message(attrs, conversation_id) do
     conversation = get_conversation!(conversation_id)
       |> Repo.preload(:org)
     %Message{}

@@ -5,8 +5,13 @@ defmodule AgoraWeb.OrgController do
   alias Agora.Messages
 
   def show_from_client_id(conn, %{"client_id" => client_id}) do
-    org = Accounts.get_org_by_client_id(client_id)
-    conversations = Messages.list_conversations(org.id)
-    render(conn, "widget.json", %{ org: org, conversations: conversations })
+    case Accounts.get_org_by_client_id(client_id) do
+      {:ok, org} ->
+        conversations = Messages.list_conversations(org.id)
+        render(conn, "widget.json", %{ org: org, conversations: conversations })
+      {:error, _} ->
+        conn
+        |> AgoraWeb.FallbackController.call({:error, :not_found})
+    end
   end
 end

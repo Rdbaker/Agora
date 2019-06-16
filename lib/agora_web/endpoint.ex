@@ -40,5 +40,20 @@ defmodule AgoraWeb.Endpoint do
     key: "_agora_key",
     signing_salt: "CDSGtsmG"
 
+  plug CORSPlug, origin: ["http://lcl.agora.co:9001"], headers: [
+    "X-Agora-Client-Id",
+    "Authorization",
+    "Content-Type",
+    "Accept",
+    "Origin",
+    "User-Agent",
+    "DNT",
+    "Cache-Control",
+    "X-Mx-ReqToken",
+    "Keep-Alive",
+    "X-Requested-With",
+    "If-Modified-Since",
+    "X-CSRF-Token"
+  ]
   plug AgoraWeb.Router
 end
