@@ -127,6 +127,10 @@ defmodule Agora.Accounts do
     Repo.all(EndUser)
   end
 
+  def bulk_get_end_users(ids) do
+    Repo.all(from(e in EndUser, where: e.id in ^ids))
+  end
+
   @doc """
   Gets a single end_user.
 

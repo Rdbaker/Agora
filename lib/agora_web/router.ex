@@ -50,6 +50,7 @@ defmodule AgoraWeb.Router do
 
     get "/orgs/:client_id", OrgController, :show_from_client_id
     options "/orgs/:client_id", OrgController, :options
+    get "/end_users", EndUserController, :show
     get "/end_users/:id", EndUserController, :show
     get "/conversations/:id/messages", MessageController, :paginate
     post "/end_users", EndUserController, :create

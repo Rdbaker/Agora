@@ -11,8 +11,15 @@ defmodule AgoraWeb.EndUserController do
         |> redirect(to: Routes.session_path(conn, :create, %{ end_user: end_user_params }))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "error.json", changeset: changeset)
+        conn
+        |> put_status(422)
+        |> render("error.json", changeset: changeset)
     end
+  end
+
+  def show(conn, %{"ids" => ids}) do
+    end_users = Accounts.bulk_get_end_users(ids)
+    render(conn, "show.json", end_users: end_users)
   end
 
   def show(conn, %{"id" => id}) do

@@ -12,6 +12,11 @@ defmodule AgoraWeb.SessionView do
   def render("error.json", %{:error => error}) do
     %{error: error}
   end
+
+  def render("error.json", %{:errors => errors}) do
+    %{:errors => errors}
+  end
+
   def render("show.json", params) do
     %{data: render("user.json", params)}
   end

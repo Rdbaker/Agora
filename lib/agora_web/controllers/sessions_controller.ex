@@ -15,7 +15,9 @@ defmodule AgoraWeb.SessionController do
             render(conn, "show.json", %{ token: token, claims: claims })
         end
       {:error, :unauthorized} ->
-        render(conn, "error.json", %{ error: "unauthorized" })
+        conn
+        |> put_status(400)
+        |> render("error.json", %{ errors: %{ username: ["and password not recognized"] }})
     end
   end
 

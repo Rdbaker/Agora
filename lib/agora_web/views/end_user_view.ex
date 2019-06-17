@@ -1,4 +1,6 @@
 defmodule AgoraWeb.EndUserView do
+  use AgoraWeb, :view
+  alias AgoraWeb.EndUserView
   import AgoraWeb.ErrorHelpers
 
   def render("index.json", _params) do
@@ -7,6 +9,10 @@ defmodule AgoraWeb.EndUserView do
 
   def render("error.json", %{:changeset => changeset}) do
     %{errors: Ecto.Changeset.traverse_errors(changeset, &translate_error/1)}
+  end
+
+  def render("show.json", %{:end_users => end_users}) do
+    %{data: render_many(end_users, EndUserView, "end_user.json")}
   end
 
   def render("show.json", params) do
