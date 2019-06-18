@@ -11,7 +11,7 @@ use Mix.Config
 # before starting your production server.
 config :agora, AgoraWeb.Endpoint,
   url: [scheme: "https", host: "agorachatapi.herokuapp.com", port: 443],
-  force_ssl: [rewrite_on: [:x_forwarded_proto]],
+  force_ssl: [rewrite_on: [:x_forwarded_proto]]
 
 # Do not print debug messages in production
 config :logger, level: :info
