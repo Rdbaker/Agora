@@ -2,7 +2,8 @@ defmodule AgoraWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :agora
 
   socket "/socket", AgoraWeb.UserSocket,
-    websocket: true,
+    # heroku has a 55 second timeout window, change this to websocket: true when we get off heroku
+    websocket: [timeout: 45_000],
     longpoll: false
 
   # Serve at "/" the static files from "priv/static" directory.
