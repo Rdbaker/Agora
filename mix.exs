@@ -44,7 +44,9 @@ defmodule Agora.MixProject do
       {:comeonin, "~> 5.1.2"},
       {:bcrypt_elixir, "~> 2.0"},
       {:guardian, "~> 1.0"},
-      {:cors_plug, "~> 2.0"}
+      {:cors_plug, "~> 2.0"},
+      {:httpoison, "~> 1.5.1"},
+      {:poison, "~> 1.3.1"}
     ]
   end
 

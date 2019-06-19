@@ -3,6 +3,7 @@ defmodule AgoraWeb.MessageController do
 
   alias Agora.Messages
   alias Agora.Messages.Message
+  alias Agora.Messages.Location
 
   action_fallback AgoraWeb.FallbackController
 
@@ -22,6 +23,7 @@ defmodule AgoraWeb.MessageController do
       author_type: "END_USER",
       user_context: Map.merge(Map.get(message_params, "user_context", %{}), %{
         ip: to_string(conn.assigns[:ip]),
+        location: Location.location_from_ip(conn.assigns[:ip]),
       }),
       attributes: Map.get(message_params, "attributes", %{}),
       body: Map.get(message_params, "body", ""),
