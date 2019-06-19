@@ -6,7 +6,7 @@ defmodule Agora.Messages.Location do
     url = "http://ip-api.com/json/#{ip}"
     case HTTPoison.get(url) do
       {:ok, %{status_code: 200, body: body}} ->
-        Map.drop(Poison.decode!(body), [:query, :status])
+        Map.drop(Poison.decode!(body), ["query", "status"])
 
       {:ok, %{status_code: 404}} ->
         %{}
