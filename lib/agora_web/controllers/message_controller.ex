@@ -21,7 +21,7 @@ defmodule AgoraWeb.MessageController do
       author_id: conn.assigns[:current_user].id,
       author_type: "END_USER",
       user_context: Map.merge(Map.get(message_params, "user_context", %{}), %{
-        ip: to_string(:inet_parse.ntoa(conn.remote_ip)),
+        ip: to_string(conn.assigns[:ip]),
       }),
       attributes: Map.get(message_params, "attributes", %{}),
       body: Map.get(message_params, "body", ""),

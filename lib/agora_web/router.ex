@@ -11,6 +11,7 @@ defmodule AgoraWeb.Router do
 
   pipeline :end_user_auth do
     plug Agora.Auth.EndUserTokenPlug
+    plug Agora.Plug.PublicIp
   end
 
   scope "/", AgoraWeb do
