@@ -15,14 +15,11 @@ defmodule Agora.Plug.PublicIp do
     Plug.Conn.assign(conn, :ip, to_string(:inet.ntoa(get_peer_ip(conn))))
   end
   def process(conn, vals) do
-    if Application.get_env(@app, :trust_x_forwarded_for, false) do ip_address = get_ip_address(conn, vals) # Rewrite standard remote_ip field with value from header
-      # See https://hexdocs.pm/plug/Plug.Conn.html
-      conn = %{conn | remote_ip: ip_address}
+    ip_address = get_ip_address(conn, vals) # Rewrite standard remote_ip field with value from header
+    # See https://hexdocs.pm/plug/Plug.Conn.html
+    conn = %{conn | remote_ip: ip_address}
 
-      Plug.Conn.assign(conn, :ip, to_string(:inet.ntoa(ip_address)))
-    else
-      Plug.Conn.assign(conn, :ip, to_string(:inet.ntoa(get_peer_ip(conn))))
-    end
+    Plug.Conn.assign(conn, :ip, to_string(:inet.ntoa(ip_address)))
   end
 
   defp get_ip_address(conn, vals)
