@@ -15,7 +15,6 @@ defmodule AgoraWeb.ConversationController do
     with {:ok, %Conversation{} = conversation} <- Messages.create_conversation(conversation_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.conversation_path(conn, :show, conversation))
       |> render("show.json", conversation: conversation)
     end
   end
