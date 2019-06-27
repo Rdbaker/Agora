@@ -9,6 +9,7 @@ defmodule Agora.Accounts do
   alias Agora.Accounts.User
   alias Agora.Accounts.EndUser
   alias Agora.Accounts.Org
+  alias Agora.Accounts.OrgProperty
   alias Agora.Messages.Conversation
 
   def authenticate_by_email_password(email, password) do
@@ -295,5 +296,27 @@ defmodule Agora.Accounts do
   """
   def change_org(%Org{} = org) do
     Org.changeset(org, %{})
+  end
+
+  def get_properties_for_org(org_id) do
+    Repo.all(from(o in OrgProperty, where: o.org_id == ^org_id))
+  end
+
+  def upsert_org_gate(org_id, name, enabled) do
+    case Repo.get_by(OrgProperty, org_id: org_id, name: name) do
+      prop ->
+        prop
+        |> OrgProperty.changeset(%{ value: enabled })
+        |> Repo.update()
+      nil ->
+        %OrgProperty{
+          name: name,
+          value: enabled,
+          type: "boolean",
+          namespace: "GATES",
+          org_id: org_id
+        }
+        |> Repo.insert()
+    end
   end
 end

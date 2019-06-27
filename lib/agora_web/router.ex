@@ -24,6 +24,8 @@ defmodule AgoraWeb.Router do
   scope "/api", AgoraWeb do
     pipe_through [:api, :user_auth]
 
+    get "/orgs/me", OrgController, :me
+    get "/org_properties/me", OrgPropertyController, :me
     get "/users/me", UserController, :me
     get "/users/:id", UserController, :show
   end
