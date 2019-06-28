@@ -26,6 +26,7 @@ defmodule AgoraWeb.Router do
 
     get "/orgs/me", OrgController, :me
     get "/org_properties/me", OrgPropertyController, :me
+    post "/org_properties", OrgPropertyController, :create_setting
     get "/users/me", UserController, :me
     get "/users/:id", UserController, :show
   end

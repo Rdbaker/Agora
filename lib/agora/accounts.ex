@@ -302,21 +302,30 @@ defmodule Agora.Accounts do
     Repo.all(from(o in OrgProperty, where: o.org_id == ^org_id))
   end
 
-  def upsert_org_gate(org_id, name, enabled) do
-    case Repo.get_by(OrgProperty, org_id: org_id, name: name) do
-      prop ->
+  def upsert_org_property(org_id, name, value, type, namespace) do
+    prop = Repo.get_by(OrgProperty, org_id: org_id, name: name, namespace: namespace)
+    case prop == nil do
+      false ->
         prop
-        |> OrgProperty.changeset(%{ value: enabled })
+        |> OrgProperty.changeset(%{ value: value, type: type })
         |> Repo.update()
-      nil ->
+      true ->
         %OrgProperty{
           name: name,
-          value: enabled,
-          type: "boolean",
-          namespace: "GATES",
+          value: value,
+          type: type,
+          namespace: namespace,
           org_id: org_id
         }
         |> Repo.insert()
     end
+  end
+
+  def upsert_org_gate(org_id, name, enabled) do
+    upsert_org_property(org_id, name, enabled, "boolean", "GATES")
+  end
+
+  def upsert_org_setting(org_id, name, value, type) do
+    upsert_org_property(org_id, name, value, type, "SETTINGS")
   end
 end
