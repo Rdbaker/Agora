@@ -29,6 +29,7 @@ defmodule AgoraWeb.Router do
     post "/org_properties", OrgPropertyController, :create_setting
     get "/users/me", UserController, :me
     get "/users/:id", UserController, :show
+    post "/conversations/:id/messages", MessageController, :create_as_user
   end
 
   # PUBLIC API ENDPOINTS

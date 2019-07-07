@@ -5,7 +5,10 @@ defmodule AgoraWeb.OrgController do
   alias Agora.Messages
 
   def me(conn, _params) do
-    render(conn, "private.json", org: Accounts.get_properties_for_org(conn.assigns[:current_user].org_id))
+    org = Accounts.get_org! conn.assigns[:current_user].org_id
+    conversations = Messages.list_conversations(org.id)
+    org_properties = Accounts.get_properties_for_org(org.id)
+    render(conn, "private.json", %{ org: org, conversations: conversations, org_properties: org_properties })
   end
 
   def show_from_client_id(conn, %{"client_id" => client_id}) do
