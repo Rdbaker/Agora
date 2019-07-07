@@ -41,7 +41,7 @@ defmodule AgoraWeb.Endpoint do
     key: "_agora_key",
     signing_salt: "CDSGtsmG"
 
-  plug CORSPlug, origin: ["http://lcl.agorachat.org:9001", "https://js.agorachat.org"], headers: [
+  plug CORSPlug, origin: ["http://lcl.agorachat.org:3200", "http://lcl.agorachat.org:9001", "https://js.agorachat.org", "https://app.agorachat.org", "https://www.agorachat.org"], headers: [
     "X-Agora-Client-Id",
     "Authorization",
     "Content-Type",

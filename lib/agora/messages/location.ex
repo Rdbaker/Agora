@@ -11,6 +11,9 @@ defmodule Agora.Messages.Location do
       {:ok, %{status_code: 404}} ->
         %{}
 
+      {:ok, _} ->
+        %{}
+
       {:error, _} ->
         %{}
     end
