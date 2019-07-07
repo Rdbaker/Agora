@@ -12,7 +12,7 @@ use Mix.Config
 config :agora, AgoraWeb.Endpoint,
   url: [scheme: "https", host: "agorachatapi.herokuapp.com", port: {:system, "PORT"}],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
-  check_origin: ["https://js.agorachat.org"]
+  check_origin: ["https://js.agorachat.org", "https://app.agorachat.org", "https://www.agorachat.org"]
 
 # Do not print debug messages in production
 config :logger, level: :info
