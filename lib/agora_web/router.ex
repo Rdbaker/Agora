@@ -24,12 +24,18 @@ defmodule AgoraWeb.Router do
   scope "/api", AgoraWeb do
     pipe_through [:api, :user_auth]
 
+    post "/conversations/:id/messages", MessageController, :create_as_user
+    get "/conversations/:id/messages", MessageController, :paginate
+
     get "/orgs/me", OrgController, :me
+
     get "/org_properties/me", OrgPropertyController, :me
     post "/org_properties", OrgPropertyController, :create_setting
+
     get "/users/me", UserController, :me
     get "/users/:id", UserController, :show
-    post "/conversations/:id/messages", MessageController, :create_as_user
+
+    get "/end_users", EndUserController, :show
   end
 
   # PUBLIC API ENDPOINTS
